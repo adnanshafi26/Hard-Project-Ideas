@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>150 Hard AI Project Ideas — BTech</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --card: #1a1a26;
+  --border: rgba(255,255,255,0.07);
+  --accent: #7c6cfc;
+  --accent2: #fc6c8f;
+  --accent3: #6cfcd0;
+  --text: #e8e8f0;
+  --muted: #7a7a9a;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --display: 'Syne', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+
+/* Grid noise overlay */
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,0.012) 40px,rgba(255,255,255,0.012) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,0.012) 40px,rgba(255,255,255,0.012) 41px);pointer-events:none;z-index:0}
+
+header{position:relative;z-index:1;padding:60px 48px 40px;border-bottom:1px solid var(--border)}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap}
+h1{font-family:var(--display);font-size:clamp(36px,5vw,64px);font-weight:800;line-height:1;letter-spacing:-2px}
+h1 span{color:var(--accent)}
+.subtitle{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:12px;letter-spacing:0.5px}
+.counter{font-family:var(--display);font-size:80px;font-weight:800;color:rgba(124,108,252,0.12);line-height:1;text-align:right;letter-spacing:-4px}
+
+.controls{padding:28px 48px;border-bottom:1px solid var(--border);display:flex;gap:12px;flex-wrap:wrap;align-items:center;position:sticky;top:0;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);z-index:10}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:320px}
+.search-wrap input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 12px 9px 36px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .2s}
+.search-wrap input:focus{border-color:var(--accent)}
+.search-wrap::before{content:'⌕';position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;pointer-events:none}
+.search-wrap input::placeholder{color:var(--muted)}
+
+.domain-filters{display:flex;gap:6px;flex-wrap:wrap}
+.df{padding:6px 14px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-family:var(--mono);cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.df.active,.df:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.df[data-d="Medical"].active{background:#fc6c8f;border-color:#fc6c8f}
+.df[data-d="Education"].active{background:#6c9ffc;border-color:#6c9ffc}
+.df[data-d="Agriculture"].active{background:#6cfcb2;border-color:#6cfcb2;color:#0a0a0f}
+.df[data-d="Smart City"].active{background:#fcca6c;border-color:#fcca6c;color:#0a0a0f}
+.df[data-d="Business"].active{background:#c46cfc;border-color:#c46cfc}
+.df[data-d="Cybersecurity"].active{background:#fc9c6c;border-color:#fc9c6c;color:#0a0a0f}
+.df[data-d="Environment"].active{background:#6cfcd0;border-color:#6cfcd0;color:#0a0a0f}
+.df[data-d="Legal"].active{background:#fc6c6c;border-color:#fc6c6c}
+.df[data-d="Social"].active{background:#6cf0fc;border-color:#6cf0fc;color:#0a0a0f}
+
+.stat-bar{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.stat-bar span{color:var(--accent);font-weight:500}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--border);position:relative;z-index:1}
+.card{background:var(--card);padding:22px 24px;position:relative;overflow:hidden;transition:background .2s;cursor:default}
+.card:hover{background:#1f1f2e}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .2s}
+.card:hover::before{opacity:1}
+.card[data-d="Medical"]::before{background:linear-gradient(90deg,#fc6c8f,#fc9caf)}
+.card[data-d="Education"]::before{background:linear-gradient(90deg,#6c9ffc,#9cbffc)}
+.card[data-d="Agriculture"]::before{background:linear-gradient(90deg,#6cfcb2,#9cfcd0)}
+.card[data-d="Smart City"]::before{background:linear-gradient(90deg,#fcca6c,#fce09c)}
+.card[data-d="Business"]::before{background:linear-gradient(90deg,#c46cfc,#d49cfc)}
+.card[data-d="Cybersecurity"]::before{background:linear-gradient(90deg,#fc9c6c,#fcbc9c)}
+.card[data-d="Environment"]::before{background:linear-gradient(90deg,#6cfcd0,#9cfce8)}
+.card[data-d="Legal"]::before{background:linear-gradient(90deg,#fc6c6c,#fc9c9c)}
+.card[data-d="Social"]::before{background:linear-gradient(90deg,#6cf0fc,#9cf8fc)}
+.card.hidden{display:none}
+
+.card-num{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:.5px}
+.card-title{font-family:var(--display);font-size:16px;font-weight:700;line-height:1.3;margin-bottom:8px;color:#fff}
+.card-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px}
+.card-footer{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.domain-badge{font-size:10px;font-family:var(--mono);padding:3px 8px;border-radius:4px;letter-spacing:.3px}
+.diff-badge{font-size:10px;font-family:var(--mono);padding:3px 8px;border-radius:4px;margin-left:auto;letter-spacing:.3px}
+.diff-hard{background:rgba(252,108,143,0.15);color:#fc6c8f;border:1px solid rgba(252,108,143,0.2)}
+.diff-expert{background:rgba(252,100,100,0.15);color:#fc6464;border:1px solid rgba(252,100,100,0.2)}
+
+.domain-badge[data-d="Medical"]{background:rgba(252,108,143,0.12);color:#fc8faa;border:1px solid rgba(252,108,143,0.15)}
+.domain-badge[data-d="Education"]{background:rgba(108,159,252,0.12);color:#8fb4fc;border:1px solid rgba(108,159,252,0.15)}
+.domain-badge[data-d="Agriculture"]{background:rgba(108,252,178,0.1);color:#6fcfaa;border:1px solid rgba(108,252,178,0.12)}
+.domain-badge[data-d="Smart City"]{background:rgba(252,202,108,0.1);color:#c8a060;border:1px solid rgba(252,202,108,0.12)}
+.domain-badge[data-d="Business"]{background:rgba(196,108,252,0.12);color:#c48ffc;border:1px solid rgba(196,108,252,0.15)}
+.domain-badge[data-d="Cybersecurity"]{background:rgba(252,156,108,0.12);color:#fc9c6c;border:1px solid rgba(252,156,108,0.15)}
+.domain-badge[data-d="Environment"]{background:rgba(108,252,208,0.1);color:#6fcfb4;border:1px solid rgba(108,252,208,0.12)}
+.domain-badge[data-d="Legal"]{background:rgba(252,108,108,0.12);color:#fc9090;border:1px solid rgba(252,108,108,0.15)}
+.domain-badge[data-d="Social"]{background:rgba(108,240,252,0.1);color:#70c8d4;border:1px solid rgba(108,240,252,0.12)}
+
+.tech-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.tech-tag{font-size:10px;font-family:var(--mono);padding:2px 7px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:3px;color:var(--muted)}
+
+.empty{padding:80px;text-align:center;font-family:var(--mono);color:var(--muted);grid-column:1/-1;font-size:14px}
+footer{padding:40px 48px;border-top:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;position:relative;z-index:1}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div>
+      <h1>150 <span>Hard</span><br>AI Projects</h1>
+      <p class="subtitle">// BTech Final Year · All Domains · Production-Grade Difficulty</p>
+    </div>
+    <div class="counter">150</div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap"><input type="text" id="search" placeholder="Search projects..."></div>
+  <div class="domain-filters" id="filters"></div>
+  <div class="stat-bar">Showing <span id="shown">150</span> / 150</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>Generated for BTech AI/ML Graduates · 150 projects across 9 domains</footer>
+
+<script>
+const projects = [
+// ─── MEDICAL (20) ───────────────────────────────────────────────────────────
+{n:1,d:"Medical",title:"Multi-Cancer Detector from Liquid Biopsy",desc:"Train a transformer on cell-free DNA methylation patterns to simultaneously detect 12+ cancer types from a single blood test, matching published GRAIL Galleri benchmarks.",tags:["Transformer","cfDNA","Multi-label"],diff:"expert"},
+{n:2,d:"Medical",title:"Real-Time Surgical Scene Segmentation",desc:"Segment surgical instruments and tissue types in laparoscopic video at 30fps using EfficientDet + TFLite on a Jetson Nano, with instrument tracking and collision alerts.",tags:["YOLO","Segmentation","Edge ML"],diff:"expert"},
+{n:3,d:"Medical",title:"Federated Learning EHR Predictor",desc:"Build a federated learning system across 5+ hospital nodes that predicts 30-day readmission without any patient data leaving local servers. Implement differential privacy.",tags:["Federated Learning","DP","PySyft"],diff:"expert"},
+{n:4,d:"Medical",title:"Retinal OCT Diabetic Maculopathy Grader",desc:"Grade 5 levels of diabetic maculopathy severity from OCT scans using a CNN with Grad-CAM explainability overlays, targeting FDA SaMD classification criteria.",tags:["CNN","OCT","XAI"],diff:"hard"},
+{n:5,d:"Medical",title:"Sepsis Early-Warning System",desc:"Use LSTM + vital signs time-series (HR, BP, lactate, WBC) from ICU data to predict sepsis onset 6 hours before clinical diagnosis. Calibrate against SOFA score.",tags:["LSTM","Time-series","MIMIC-IV"],diff:"expert"},
+{n:6,d:"Medical",title:"Drug Repurposing via Knowledge Graph",desc:"Build a biomedical knowledge graph (diseases, genes, drugs) and use GNN link-prediction to surface novel drug-disease candidates, validated against known repurposed drugs.",tags:["GNN","Knowledge Graph","Neo4j"],diff:"expert"},
+{n:7,d:"Medical",title:"Pathology Whole-Slide Image Classifier",desc:"Classify gigapixel WSI for tumor presence using multiple-instance learning (MIL) with attention pooling, handling 100,000×100,000px images without full loading.",tags:["MIL","Attention","OpenSlide"],diff:"expert"},
+{n:8,d:"Medical",title:"Mental Health Symptom Progression Tracker",desc:"NLP pipeline that analyses longitudinal therapy transcripts to track symptom severity trends using PHQ-9 proxy scoring, with privacy-preserving on-device inference.",tags:["NLP","LLM","Longitudinal"],diff:"hard"},
+{n:9,d:"Medical",title:"Polyp Detection with Uncertainty Quantification",desc:"Detect colonic polyps in colonoscopy video with a Bayesian CNN that outputs calibrated uncertainty scores, flagging ambiguous frames for specialist review.",tags:["Bayesian CNN","Uncertainty","Video ML"],diff:"expert"},
+{n:10,d:"Medical",title:"Personalised Chemotherapy Dosing Agent",desc:"RL agent trained on pharmacokinetic models that recommends chemo dose adjustments based on patient biomarkers, minimising toxicity while maintaining therapeutic efficacy.",tags:["Reinforcement Learning","PK/PD","Safety ML"],diff:"expert"},
+{n:11,d:"Medical",title:"ECG Arrhythmia Detection on Microcontroller",desc:"Compress a 12-lead ECG classifier to run on an STM32 microcontroller using quantisation-aware training and TFLite Micro, alerting in under 200ms.",tags:["TFLite Micro","Quantisation","ECG"],diff:"hard"},
+{n:12,d:"Medical",title:"Chest X-Ray Report Generator",desc:"End-to-end vision-language model that takes a chest X-ray and produces a radiologist-style structured report, fine-tuned on Indiana University Chest X-Ray dataset.",tags:["VLM","CheXpert","NLG"],diff:"hard"},
+{n:13,d:"Medical",title:"Genomic Variant Pathogenicity Predictor",desc:"Fine-tune a DNA language model (Nucleotide Transformer) on ClinVar labelled variants to predict pathogenicity of unseen VCF mutations with confidence intervals.",tags:["DNA-LM","VCF","ClinVar"],diff:"expert"},
+{n:14,d:"Medical",title:"Chronic Wound Healing Monitor",desc:"Track wound area, colour, and tissue composition from smartphone photos over time using segmentation + colour space analysis, generating weekly healing-rate reports.",tags:["Segmentation","Colour Analysis","Mobile"],diff:"hard"},
+{n:15,d:"Medical",title:"3D Brain Tumour Segmentation",desc:"Segment GBM and LGG tumours from multimodal MRI (T1, T2, FLAIR) using 3D U-Net with 5-fold cross-validation on BraTS dataset, reporting Dice ≥ 0.85.",tags:["3D U-Net","BraTS","Multi-modal"],diff:"expert"},
+{n:16,d:"Medical",title:"Antibiotic Resistance Prediction from SMILES",desc:"Predict MIC values for antibiotics against bacterial strains using a graph neural network trained on SMILES molecular representations and PATRIC resistance data.",tags:["GNN","SMILES","AMR"],diff:"expert"},
+{n:17,d:"Medical",title:"Neonatal Pain Assessment from Facial Video",desc:"Classify neonatal pain levels from facial expression video using AU-coded landmarks + temporal CNN, replacing subjective nursing assessments in NICUs.",tags:["Video CNN","Action Units","NICU"],diff:"hard"},
+{n:18,d:"Medical",title:"Clinical Trial Eligibility Screener",desc:"RAG + NER pipeline that reads unstructured EHR notes and auto-matches patients to clinical trial eligibility criteria, reducing manual screening time by 80%.",tags:["RAG","NER","EHR"],diff:"hard"},
+{n:19,d:"Medical",title:"Medication Adherence Predictor",desc:"Predict which patients will miss doses using pharmacy refill patterns, IoT smart-pill-cap data, and social determinants, then personalise SMS nudging strategy.",tags:["IoT","XGBoost","Causal ML"],diff:"hard"},
+{n:20,d:"Medical",title:"Synthetic Medical Image Generator for Rare Diseases",desc:"Train a conditional diffusion model to synthesise rare-disease skin lesion images (e.g., pemphigus) for augmenting tiny training sets, evaluated by FID and dermatologist study.",tags:["Diffusion","DDPM","Synthetic Data"],diff:"expert"},
+
+// ─── EDUCATION (18) ──────────────────────────────────────────────────────────
+{n:21,d:"Education",title:"Automatic Short Answer Grader",desc:"Grade free-text exam answers for conceptual correctness using a fine-tuned DeBERTa model on SemEval ASAG datasets, outputting rubric-aligned feedback.",tags:["DeBERTa","ASAG","NLI"],diff:"hard"},
+{n:22,d:"Education",title:"Knowledge Tracing with Graph Neural Network",desc:"Model a student's evolving knowledge state across 500+ concepts using a GNN over the concept dependency graph, predicting future performance on ASSISTments data.",tags:["GNN","Knowledge Tracing","EdTech"],diff:"expert"},
+{n:23,d:"Education",title:"Adaptive Question Generator",desc:"Generate exam questions at calibrated difficulty levels from a syllabus chapter using an LLM + IRT-based difficulty estimator, with automated Bloom's Taxonomy tagging.",tags:["LLM","IRT","Bloom's"],diff:"hard"},
+{n:24,d:"Education",title:"Plagiarism Detector with Paraphrase Awareness",desc:"Detect paraphrased plagiarism using semantic embedding similarity + stylometric features, trained to flag AI-generated rewriting even after multiple paraphrase passes.",tags:["SBERT","Stylometry","Clustering"],diff:"hard"},
+{n:25,d:"Education",title:"Maths Problem Solver with Step Verification",desc:"Solve olympiad-level maths problems and verify each reasoning step using a symbolic solver (SymPy) cross-checking LLM outputs, reducing hallucinated steps.",tags:["LLM","SymPy","Chain-of-Thought"],diff:"hard"},
+{n:26,d:"Education",title:"Emotion-Aware Tutoring System",desc:"Detect student frustration/boredom from webcam facial expressions in real time and adjust content pacing, hints, and encouragement messages accordingly.",tags:["FER","Adaptive","WebRTC"],diff:"hard"},
+{n:27,d:"Education",title:"Handwritten Exam Paper Auto-Evaluator",desc:"OCR pipeline that reads handwritten Telugu/Hindi maths answers, parses equations, and awards partial marks by comparing solution steps to model answer.",tags:["OCR","HTR","Partial Credit"],diff:"hard"},
+{n:28,d:"Education",title:"Course Dropout Early Warning System",desc:"Predict MOOC dropout 2 weeks early using clickstream sequences + forum activity + assignment delay patterns, achieving AUC > 0.88 on KDDCup 2015 data.",tags:["Clickstream","LSTM","MOOC"],diff:"hard"},
+{n:29,d:"Education",title:"Research Paper Recommender for Students",desc:"Personalised academic paper recommender using citation graph embeddings (GraphSAGE) + reading history, surfacing papers at the right complexity level for a student.",tags:["GraphSAGE","Citation Graph","RecSys"],diff:"hard"},
+{n:30,d:"Education",title:"Lecture Video Chaptering & QA System",desc:"Auto-segment lecture videos into topic chapters using audio + slide-change detection, then build a RAG QA bot that answers 'at what timestamp does X topic start'.",tags:["Whisper","RAG","Segmentation"],diff:"hard"},
+{n:31,d:"Education",title:"Child Reading Fluency Assessor",desc:"Assess oral reading fluency from microphone audio — count miscues, measure words-per-minute, and identify disfluency patterns using ASR aligned to ground-truth text.",tags:["ASR","Alignment","NLP"],diff:"hard"},
+{n:32,d:"Education",title:"Code Bug Explainer for Beginners",desc:"Detect runtime/semantic bugs in student code, trace the execution path, and generate a Socratic explanation that guides the student to fix it without giving the answer.",tags:["Program Analysis","LLM","Pedagogy"],diff:"hard"},
+{n:33,d:"Education",title:"Multilingual Flashcard Generator",desc:"Extract key concepts from uploaded PDFs (any language) using KeyBERT, auto-generate spaced-repetition flashcards, and translate them into the student's mother tongue.",tags:["KeyBERT","Translation","SRS"],diff:"hard"},
+{n:34,d:"Education",title:"3D Concept Visualiser for Physics",desc:"Take a physics textbook description and auto-generate an interactive 3D simulation (Three.js) — e.g. orbital mechanics, wave interference — with parameter sliders.",tags:["LLM","Three.js","Code Gen"],diff:"expert"},
+{n:35,d:"Education",title:"Student Writing Style Progression Analyser",desc:"Track how a student's academic writing evolves across semesters — vocabulary richness, sentence complexity, argumentation depth — and generate a longitudinal growth report.",tags:["NLP","Stylometry","Longitudinal"],diff:"hard"},
+{n:36,d:"Education",title:"Sign Language Tutor for Deaf Students",desc:"Real-time ISL/ASL sign recognition from webcam using MediaPipe hand+pose landmarks + LSTM, with immediate correctness feedback and lesson progression.",tags:["MediaPipe","LSTM","ISL"],diff:"hard"},
+{n:37,d:"Education",title:"Automated IEP Generator for Special Ed",desc:"NLP pipeline that reads assessment reports of children with learning disabilities and drafts personalised Individualised Education Plan goals aligned to national standards.",tags:["NLP","LLM","Special Ed"],diff:"hard"},
+{n:38,d:"Education",title:"Peer Review Quality Predictor",desc:"Predict the quality and helpfulness of a peer review comment before it's submitted, and coach students to write more constructive feedback using a fine-tuned BERT.",tags:["BERT","Peer Review","Feedback"],diff:"hard"},
+
+// ─── AGRICULTURE (15) ────────────────────────────────────────────────────────
+{n:39,d:"Agriculture",title:"Soil Nutrient Estimation from Hyperspectral",desc:"Predict N, P, K, and organic carbon levels from drone hyperspectral imagery using a 1D-CNN over spectral bands, replacing expensive lab testing at scale.",tags:["Hyperspectral","1D-CNN","UAV"],diff:"expert"},
+{n:40,d:"Agriculture",title:"Crop Yield Prediction with Weather Fusion",desc:"Fuse satellite NDVI time-series, weather station data, and soil maps in a Temporal Fusion Transformer to predict district-level wheat yield 8 weeks before harvest.",tags:["TFT","Sentinel-2","Fusion"],diff:"expert"},
+{n:41,d:"Agriculture",title:"Weed vs Crop Differentiator for Sprayers",desc:"Real-time weed/crop differentiation at field-of-view speed using a quantised EfficientDet on a Jetson Nano mounted on a tractor, enabling 90% herbicide reduction.",tags:["Edge ML","EfficientDet","Precision Ag"],diff:"expert"},
+{n:42,d:"Agriculture",title:"Pest Population Forecasting Model",desc:"Forecast aphid/whitefly outbreak 14 days ahead by fusing pheromone trap counts, humidity, temperature, and crop growth stage using a GRU + attention model.",tags:["GRU","Time-series","IoT Traps"],diff:"hard"},
+{n:43,d:"Agriculture",title:"Mango Quality Grader for Export",desc:"Grade mangoes by surface defect, colour uniformity, and size using multispectral camera + CNN, sorting into export grades in real time on a conveyor belt.",tags:["CNN","Multispectral","Grading"],diff:"hard"},
+{n:44,d:"Agriculture",title:"Aquaculture Fish Stress Detector",desc:"Analyse underwater camera feeds in fish ponds to detect erratic swimming patterns (stress indicators) using optical flow + anomaly detection, alerting farmers.",tags:["Optical Flow","Anomaly Detection","CV"],diff:"hard"},
+{n:45,d:"Agriculture",title:"Irrigation Scheduler via Soil Moisture RL",desc:"Train a DQN agent on soil moisture sensor readings and weather forecasts to schedule irrigation, reducing water use by 35% while maintaining yield targets.",tags:["DQN","IoT","Water Optimisation"],diff:"expert"},
+{n:46,d:"Agriculture",title:"Plant Genome × Environment Interaction Model",desc:"Predict phenotypic traits (drought tolerance, yield) from SNP arrays + climate data using a genomic prediction transformer fine-tuned on HAPMAP rice data.",tags:["Transformer","Genomics","G×E"],diff:"expert"},
+{n:47,d:"Agriculture",title:"Post-Harvest Spoilage Predictor",desc:"Predict days-to-spoilage for tomatoes and bananas using gas sensor array (e-nose) data + temperature logs, enabling dynamic cold-chain rerouting decisions.",tags:["e-Nose","Sensor Fusion","Supply Chain"],diff:"hard"},
+{n:48,d:"Agriculture",title:"Drone Flight Path Optimiser for Field Survey",desc:"Optimise UAV survey paths over irregular fields using a PPO RL agent that minimises flight time while ensuring full crop coverage and battery safety margins.",tags:["PPO","Path Planning","UAV"],diff:"expert"},
+{n:49,d:"Agriculture",title:"Farmer Voice Assistant in Regional Languages",desc:"Offline-capable voice bot (Whisper-small fine-tuned on Telugu/Marathi) that answers agronomic questions and government scheme queries without internet.",tags:["Whisper","LLM","Offline ASR"],diff:"hard"},
+{n:50,d:"Agriculture",title:"Remote Sensing Deforestation Alert",desc:"Detect deforestation events within 3 days of occurrence using bi-weekly Sentinel-1 SAR + Sentinel-2 optical change detection, alerting forest authorities automatically.",tags:["SAR","Change Detection","GEE"],diff:"expert"},
+{n:51,d:"Agriculture",title:"Livestock Body Condition Scorer",desc:"Automatically score cattle body condition (BCS 1–9) from side-profile photos using a keypoint + regression CNN, replacing manual vet assessment on large farms.",tags:["Keypoint CNN","Livestock","Regression"],diff:"hard"},
+{n:52,d:"Agriculture",title:"Crop Insurance Fraud Detector",desc:"Detect fraudulent crop-loss claims by comparing farmer-reported loss photos against satellite imagery and historical yield maps using multimodal inconsistency detection.",tags:["Multimodal","Satellite","Fraud"],diff:"expert"},
+{n:53,d:"Agriculture",title:"Micro-Climate Station Network Interpolator",desc:"Predict fine-grained micro-climate (temperature, humidity) across a field from sparse sensor nodes using a Graph Neural Network over sensor topology.",tags:["GNN","Spatial ML","Micro-climate"],diff:"hard"},
+
+// ─── SMART CITY / PUBLIC (18) ─────────────────────────────────────────────────
+{n:54,d:"Smart City",title:"Multi-Camera Vehicle Re-Identification",desc:"Track a vehicle across a city-wide camera network using multi-modal re-ID (appearance + plate partial match + trajectory), robust to occlusion and viewpoint changes.",tags:["Re-ID","DeepSORT","Multi-camera"],diff:"expert"},
+{n:55,d:"Smart City",title:"Urban Heat Island Mapping from Satellite",desc:"Produce 10m-resolution urban heat island maps by fusing Landsat LST + building footprints + greenery indices, updated weekly, for city planning dashboards.",tags:["Landsat","Fusion","GIS"],diff:"hard"},
+{n:56,d:"Smart City",title:"Dynamic Street Light Optimiser",desc:"RL agent that dims/brightens street lights based on real-time pedestrian density from camera feeds, reducing energy use by 40% while maintaining safety standards.",tags:["RL","Computer Vision","IoT"],diff:"expert"},
+{n:57,d:"Smart City",title:"Flood Inundation Predictor",desc:"Predict 6-hour flood inundation extent using a physics-informed neural network trained on topography + rainfall radar data, integrated with municipal emergency systems.",tags:["PINN","HydroML","Emergency"],diff:"expert"},
+{n:58,d:"Smart City",title:"Public Transport Demand Forecasting",desc:"Forecast bus and metro passenger demand per stop at 15-min resolution using a STGNN over the transit graph, enabling real-time fleet redeployment decisions.",tags:["STGNN","GTFS","Demand Forecast"],diff:"expert"},
+{n:59,d:"Smart City",title:"Graffiti and Vandalism Auto-Reporter",desc:"Detect graffiti, broken glass, and illegal dumping from city CCTV using a fine-tuned CLIP + detector, auto-filing service requests to the municipal app.",tags:["CLIP","Detection","Civic Tech"],diff:"hard"},
+{n:60,d:"Smart City",title:"Noise Pollution Mapper",desc:"Map real-time noise pollution levels across a city using a network of Raspberry Pi acoustic sensors + a spatial interpolation GNN, with hotspot alerts.",tags:["IoT","GNN","Acoustics"],diff:"hard"},
+{n:61,d:"Smart City",title:"Emergency Vehicle Route Clearance System",desc:"Detect approaching ambulance siren acoustically at intersections and pre-emptively clear green-light corridors along the predicted route using a Dijkstra + RL hybrid.",tags:["Acoustic ML","Traffic Control","RL"],diff:"expert"},
+{n:62,d:"Smart City",title:"Crowd Density Estimator for Events",desc:"Estimate crowd density and flow direction in real time from fisheye CCTV using CSRNet++ and optical flow, triggering evacuation alerts at safety thresholds.",tags:["CSRNet","Crowd Analysis","Safety"],diff:"hard"},
+{n:63,d:"Smart City",title:"Water Pipeline Leak Detector",desc:"Detect leaks in underground pipes by fusing pressure sensor anomalies + acoustic emission patterns + GIS pipe age data, pinpointing leak location within 50m.",tags:["Anomaly Detection","GIS","Sensor Fusion"],diff:"expert"},
+{n:64,d:"Smart City",title:"Air Quality Forecasting with Source Attribution",desc:"Forecast PM2.5/NO2 72 hours ahead at locality level and attribute pollution sources (traffic, industry, crop burning) using a hybrid physics-ML model.",tags:["Physics-ML","Source Attribution","Air Quality"],diff:"expert"},
+{n:65,d:"Smart City",title:"Pothole Severity Ranker for Road Budget",desc:"Classify pothole severity (1–5) from mobile camera + accelerometer fusion and auto-prioritise repair work orders by traffic impact and maintenance cost models.",tags:["Sensor Fusion","Classification","GIS"],diff:"hard"},
+{n:66,d:"Smart City",title:"Slum Growth Tracker from Satellite Time-Series",desc:"Track informal settlement expansion annually using bi-temporal Sentinel-2 change detection + building footprint segmentation, informing urban planning policy.",tags:["Change Detection","Segmentation","GEE"],diff:"hard"},
+{n:67,d:"Smart City",title:"Intelligent Bin Fill-Level Monitor",desc:"Predict waste bin fill levels from IoT ultrasonic sensors and route collection trucks dynamically using a VRP solver + ML-predicted fill rates, cutting fuel 30%.",tags:["IoT","VRP","Prediction"],diff:"hard"},
+{n:68,d:"Smart City",title:"Pedestrian Intent Predictor at Crosswalks",desc:"Predict whether a pedestrian will cross the road in the next 3 seconds from pose and gaze estimation, enabling proactive AV braking decisions.",tags:["Pose Estimation","Gaze","AV Safety"],diff:"expert"},
+{n:69,d:"Smart City",title:"Illegal Construction Detector",desc:"Flag unauthorised building construction by comparing monthly satellite imagery to approved building plan polygons using change detection + shape matching.",tags:["Satellite","Change Detection","GIS"],diff:"hard"},
+{n:70,d:"Smart City",title:"Public Health Surveillance via Social Media",desc:"Detect disease outbreak signals (dengue, cholera) from geotagged social posts using a fine-tuned health NLP classifier + spatial clustering, 2 weeks before official reports.",tags:["NLP","Geospatial","Syndromic Surveillance"],diff:"expert"},
+{n:71,d:"Smart City",title:"Adaptive Speed Limit Signage System",desc:"Dynamically adjust digital speed limit signs based on real-time visibility (fog, rain), road wetness sensors, and traffic speed variance, reducing accident probability.",tags:["Computer Vision","IoT","Safety"],diff:"hard"},
+
+// ─── BUSINESS / FINANCE (18) ──────────────────────────────────────────────────
+{n:72,d:"Business",title:"LLM-Powered Contract Risk Analyser",desc:"Parse 100-page legal contracts, extract clauses, flag non-standard or high-risk language, and generate a risk heat-map — in under 60 seconds using GPT-4 + RAG.",tags:["RAG","NLP","Contract"],diff:"hard"},
+{n:73,d:"Business",title:"Supply Chain Disruption Predictor",desc:"Predict supplier disruptions 30 days ahead by fusing news sentiment, shipping data, sanctions lists, and weather events using a multi-source fusion transformer.",tags:["Transformer","Fusion","Supply Chain"],diff:"expert"},
+{n:74,d:"Business",title:"Real-Time Transaction Fraud Detector",desc:"Detect payment fraud in <50ms using a GNN over the transaction graph (catching collusion rings) + gradient boosting for tabular features, on a Kafka stream.",tags:["GNN","Kafka","Fraud"],diff:"expert"},
+{n:75,d:"Business",title:"Earnings Call Sentiment → Stock Move",desc:"Predict next-day stock price direction from earnings call transcript sentiment + prosodic features (CEO vocal stress) using a multimodal audio-text model.",tags:["Multimodal","NLP","Finance"],diff:"hard"},
+{n:76,d:"Business",title:"Credit Scoring for Thin-File Borrowers",desc:"Build a fair credit score for borrowers with no credit history using alternative data (UPI transaction patterns, utility payments) with SHAP explainability and bias auditing.",tags:["XGBoost","SHAP","Fairness"],diff:"hard"},
+{n:77,d:"Business",title:"Customer Churn Causal Model",desc:"Go beyond correlation — use causal inference (DoWhy) to identify true drivers of customer churn and simulate the counterfactual impact of retention interventions.",tags:["Causal Inference","DoWhy","Retention"],diff:"expert"},
+{n:78,d:"Business",title:"Algorithmic Pricing Engine",desc:"Multi-agent RL pricing system for e-commerce that learns competitive pricing strategies without explicit competitor price access, using demand elasticity signals.",tags:["Multi-Agent RL","Pricing","Demand"],diff:"expert"},
+{n:79,d:"Business",title:"Insurance Claim Image Fraud Detector",desc:"Detect staged accident images and recycled claim photos using a reverse image search + metadata forensics + manipulation detection CNN (ELA analysis).",tags:["Forensics","ELA","Image Hashing"],diff:"hard"},
+{n:80,d:"Business",title:"ESG Report Verifier",desc:"Cross-check ESG report claims against satellite emissions data, supplier news, and regulatory filings using a multi-source RAG pipeline to flag greenwashing.",tags:["RAG","ESG","Satellite"],diff:"hard"},
+{n:81,d:"Business",title:"Personalised Investment Portfolio Optimiser",desc:"Build a mean-variance + RL hybrid portfolio optimiser personalised to risk tolerance and ESG preferences, back-tested on 10 years of NSE/BSE data.",tags:["RL","Portfolio","Finance"],diff:"expert"},
+{n:82,d:"Business",title:"Job Description Bias Auditor",desc:"Detect gendered, ageist, and ableist language in job descriptions using a fine-tuned classifier + counterfactual testing, and auto-suggest neutral rewrites.",tags:["Fairness","NLP","HR"],diff:"hard"},
+{n:83,d:"Business",title:"Product Review Sarcasm-Aware Sentiment",desc:"Detect sarcasm and irony in product reviews using a contrastive learning model, improving sentiment accuracy by 15% over VADER on Yelp and Amazon datasets.",tags:["Contrastive Learning","Sarcasm","NLP"],diff:"hard"},
+{n:84,d:"Business",title:"Demand Forecasting with Causal Events",desc:"Forecast retail SKU demand incorporating causal external events (IPL matches, elections, festivals) using a Temporal Fusion Transformer on FMCG sales data.",tags:["TFT","Demand","Causal"],diff:"hard"},
+{n:85,d:"Business",title:"Competitor Intelligence Dashboard",desc:"Auto-monitor competitor websites, press releases, and job postings using LLM summarisation + change detection, surfacing strategic signals daily.",tags:["LLM","Web Scraping","NLP"],diff:"hard"},
+{n:86,d:"Business",title:"Invoice Information Extractor at Scale",desc:"Extract line items, tax, vendor, and due date from 50,000+ invoice formats (PDFs, scans) using a layout-aware transformer (LayoutLMv3) with <1% error rate.",tags:["LayoutLMv3","OCR","Document AI"],diff:"hard"},
+{n:87,d:"Business",title:"Multi-Lingual Customer Support Classifier",desc:"Route support tickets across 12 languages to specialist teams using a zero-shot cross-lingual classifier (mBERT), without training data for 6 of the languages.",tags:["mBERT","Zero-shot","Multilingual"],diff:"hard"},
+{n:88,d:"Business",title:"Real-Estate Valuation with Street-View Fusion",desc:"Predict property values by fusing tabular features (area, amenities) with Google Street View image embeddings, outperforming traditional hedonic models.",tags:["Multimodal","Street View","Regression"],diff:"hard"},
+{n:89,d:"Business",title:"Deepfake Audio Detector for Call Centres",desc:"Detect synthetic voice calls in real time (<100ms) at a call centre using a raw waveform CNN (RawNet2), preventing social engineering fraud.",tags:["RawNet2","Audio Forensics","Real-time"],diff:"expert"},
+
+// ─── CYBERSECURITY (15) ───────────────────────────────────────────────────────
+{n:90,d:"Cybersecurity",title:"Network Intrusion Detector with Federated Learning",desc:"Train an anomaly detector across 10 enterprise nodes without centralising traffic logs, using federated averaging + differential privacy on NSL-KDD + CICIDS data.",tags:["Federated ML","IDS","Privacy"],diff:"expert"},
+{n:91,d:"Cybersecurity",title:"Malware Family Classifier from Assembly",desc:"Classify malware families from disassembled x86 code using a CodeBERT fine-tune on assembly opcodes, achieving >95% accuracy on the VirusShare dataset.",tags:["CodeBERT","Assembly","Malware"],diff:"expert"},
+{n:92,d:"Cybersecurity",title:"SQL Injection Detector via AST Analysis",desc:"Parse SQL queries into abstract syntax trees and use a GNN to detect injection payloads, including obfuscated and second-order injections missed by regex rules.",tags:["GNN","AST","SQL"],diff:"hard"},
+{n:93,d:"Cybersecurity",title:"Phishing URL Detector with Character-Level CNN",desc:"Detect phishing URLs using a character-level CNN + whois features + DOM structure analysis, achieving <0.1% false positive rate at 10,000 URL/sec throughput.",tags:["Char-CNN","Phishing","Real-time"],diff:"hard"},
+{n:94,d:"Cybersecurity",title:"Ransomware Behaviour Analyser",desc:"Detect ransomware pre-encryption by monitoring system call sequences in a sandbox using an LSTM over API call graphs, before any file is encrypted.",tags:["LSTM","System Calls","Sandbox"],diff:"expert"},
+{n:95,d:"Cybersecurity",title:"User Behaviour Anomaly Detector (UEBA)",desc:"Profile normal employee behaviour (login times, data access patterns, typing dynamics) using autoencoders and flag insider threat anomalies with temporal drift tracking.",tags:["Autoencoder","UEBA","Insider Threat"],diff:"expert"},
+{n:96,d:"Cybersecurity",title:"Adversarial Patch Defence System",desc:"Build a certified defence against adversarial patch attacks on image classifiers using randomised smoothing + patch detection, maintaining 90%+ clean accuracy.",tags:["Adversarial ML","Certified Defence","Smoothing"],diff:"expert"},
+{n:97,d:"Cybersecurity",title:"Dark Web Threat Intelligence Extractor",desc:"Scrape and classify threat intelligence (leaked credentials, exploit sales, APT chatter) from Tor forum posts using NER + relation extraction models.",tags:["NER","Dark Web","CTI"],diff:"expert"},
+{n:98,d:"Cybersecurity",title:"LLM-Powered Penetration Testing Assistant",desc:"Build a controlled pentest assistant that suggests next attack steps from Nmap/Metasploit output using RAG over CVE/MITRE ATT&CK, strictly in authorised test environments.",tags:["RAG","MITRE","LLM"],diff:"expert"},
+{n:99,d:"Cybersecurity",title:"Steganography Detector in Images",desc:"Detect hidden messages in JPEG/PNG images embedded via LSB, DCT, and neural steganography methods using a CNN steganalysis model trained on BOSS + IStego100K.",tags:["Steganalysis","CNN","Forensics"],diff:"hard"},
+{n:100,d:"Cybersecurity",title:"Password Strength Predictor via Neural Cracker",desc:"Train a PassGAN-style recurrent model that generates password guesses and build a strength meter that scores passwords by estimated crack time, improving on zxcvbn.",tags:["PassGAN","RNN","Security"],diff:"hard"},
+{n:101,d:"Cybersecurity",title:"Smart Contract Vulnerability Detector",desc:"Detect reentrancy, integer overflow, and front-running vulnerabilities in Solidity smart contracts using a GNN over the contract's control-flow graph.",tags:["GNN","Solidity","Smart Contract"],diff:"expert"},
+{n:102,d:"Cybersecurity",title:"IoT Device Fingerprinter",desc:"Identify IoT device types from network traffic metadata (packet size distributions, inter-arrival times) using a Random Forest, enabling rogue-device detection.",tags:["Network ML","IoT","Fingerprinting"],diff:"hard"},
+{n:103,d:"Cybersecurity",title:"Log Anomaly Detection for SOC Automation",desc:"Parse millions of server log lines per second using a Drain3 + BERT hybrid to detect anomalous sequences and auto-triage alerts for SOC analyst review.",tags:["Log Mining","BERT","SIEM"],diff:"expert"},
+{n:104,d:"Cybersecurity",title:"Face Morphing Attack Detector for eGates",desc:"Detect passport photo morphing attacks (face blending) at border eGates using a specific CNN trained on NIST FRVT morphing benchmarks.",tags:["Biometrics","Morphing","CNN"],diff:"expert"},
+
+// ─── ENVIRONMENT (15) ─────────────────────────────────────────────────────────
+{n:105,d:"Environment",title:"Coral Reef Bleaching Monitor",desc:"Map coral bleaching extent and severity from drone/satellite multispectral imagery using a segmentation model fine-tuned on CoralNet annotations.",tags:["Segmentation","Multispectral","Marine"],diff:"hard"},
+{n:106,d:"Environment",title:"Glacier Retreat Quantifier",desc:"Measure glacier area and velocity changes over 20 years using Landsat + Sentinel-2 time-series with automated calving front detection and volume estimation.",tags:["Time-series","Segmentation","Climate"],diff:"hard"},
+{n:107,d:"Environment",title:"Wildfire Spread Predictor",desc:"Predict wildfire spread 6 hours ahead using a physics-informed neural network combining weather (wind, humidity), terrain, and fuel moisture data from satellite.",tags:["PINN","Wildfire","Satellite"],diff:"expert"},
+{n:108,d:"Environment",title:"Ocean Plastic Patch Detector",desc:"Detect floating plastic debris patches in ocean satellite imagery using a custom CNN trained on the MARIDA dataset with uncertainty maps for survey prioritisation.",tags:["CNN","Sentinel-2","Ocean"],diff:"hard"},
+{n:109,d:"Environment",title:"Species Distribution Modeller",desc:"Predict future habitat range shifts for 50 endemic species under IPCC climate scenarios using MaxEnt + deep learning over bioclimatic variable rasters.",tags:["SDM","MaxEnt","Climate"],diff:"hard"},
+{n:110,d:"Environment",title:"Methane Emission Hotspot Detector",desc:"Identify point-source methane leaks from oil/gas infrastructure using TROPOMI satellite CH4 retrievals and an anomaly detection model, compared against EDGAR data.",tags:["TROPOMI","Anomaly Detection","GHG"],diff:"expert"},
+{n:111,d:"Environment",title:"Soundscape Biodiversity Index Calculator",desc:"Compute acoustic biodiversity indices (ACI, ADI) from passive audio recorder data and correlate with bird species richness using automated species identification.",tags:["Bio-acoustics","Species ID","ML"],diff:"hard"},
+{n:112,d:"Environment",title:"Industrial Effluent Water Quality Estimator",desc:"Estimate BOD, COD, and heavy metal concentrations in river water from hyperspectral drone imagery using a spectral unmixing + regression pipeline.",tags:["Hyperspectral","Water Quality","Drone"],diff:"expert"},
+{n:113,d:"Environment",title:"Carbon Sequestration Estimator from LiDAR",desc:"Estimate above-ground biomass and carbon stock in forest stands from airborne LiDAR point clouds using a 3D CNN, with plot-level validation from NFI data.",tags:["LiDAR","3D CNN","Carbon"],diff:"expert"},
+{n:114,d:"Environment",title:"Illegal Mining Detector",desc:"Detect illegal open-cast mining activities from monthly Planet satellite imagery using change detection + classification, triggering enforcement alerts.",tags:["Planet","Change Detection","Enforcement"],diff:"hard"},
+{n:115,d:"Environment",title:"Sea-Level Rise Impact Simulator",desc:"Build a web tool that simulates coastal inundation under 0.5m–3m sea-level rise scenarios by fusing DEM data, tidal models, and storm surge ML predictions.",tags:["DEM","Simulation","GIS"],diff:"hard"},
+{n:116,d:"Environment",title:"PM2.5 Concentration Estimator from Photos",desc:"Estimate PM2.5 concentration from ordinary smartphone photos of the sky using a CNN trained on co-located AQI sensor + image pairs (citizen science approach).",tags:["CNN","Citizen Science","Air Quality"],diff:"hard"},
+{n:117,d:"Environment",title:"Migratory Bird Route Tracker",desc:"Predict migratory bird corridors and stopover sites from satellite telemetry + weather data using a movement ecology ML model, for wind farm collision risk mapping.",tags:["Movement Ecology","Telemetry","GIS"],diff:"hard"},
+{n:118,d:"Environment",title:"Mangrove Extent Mapper",desc:"Map mangrove loss and gain at 10m resolution annually using a time-series of Sentinel-1 SAR + Sentinel-2 fusion model, informing blue carbon credit accounting.",tags:["SAR","Fusion","Blue Carbon"],diff:"hard"},
+{n:119,d:"Environment",title:"E-Waste Sorting Robot Vision System",desc:"Train a robotic arm vision system to identify and sort 15 categories of e-waste components for safe disassembly using a fine-tuned YOLO + 6-DoF grasp planner.",tags:["YOLO","Robotics","Grasp Planning"],diff:"expert"},
+
+// ─── LEGAL (10) ───────────────────────────────────────────────────────────────
+{n:120,d:"Legal",title:"Court Judgement Outcome Predictor",desc:"Predict case outcomes for Indian Supreme Court judgements using a fine-tuned Legal-BERT on ILDC dataset with SHAP explanations for key influencing clauses.",tags:["Legal-BERT","ILDC","XAI"],diff:"hard"},
+{n:121,d:"Legal",title:"Bail Application Risk Assessor",desc:"Build a fair bail risk assessment tool trained on CrPC-aligned data with demographic bias auditing (Equalized Odds) and judge-facing explanation interface.",tags:["Fairness","Risk Assessment","Legal"],diff:"expert"},
+{n:122,d:"Legal",title:"FIR Auto-Drafter from Victim Statement",desc:"Convert spoken victim statement audio to a structured FIR draft using ASR + NER + a fine-tuned generative model aligned to Indian Penal Code sections.",tags:["ASR","NER","LegalNLP"],diff:"hard"},
+{n:123,d:"Legal",title:"Patent Claim Novelty Checker",desc:"Given a patent claim, retrieve semantically similar prior art from USPTO/WIPO using a domain-adapted dense retriever and surface the top-5 closest claims.",tags:["Dense Retrieval","Patent","IR"],diff:"hard"},
+{n:124,d:"Legal",title:"Legal Document Summariser with Citation Integrity",desc:"Summarise 500-page legal briefs while preserving case citations, holding references, and statutory references — validated by a citation hallucination detector.",tags:["RAG","Summarisation","Legal"],diff:"hard"},
+{n:125,d:"Legal",title:"Anti-Money Laundering Transaction Network Analyser",desc:"Build a GNN that detects money laundering rings in financial transaction networks using community detection + temporal pattern analysis on synthetic SWIFT data.",tags:["GNN","AML","Graph Analytics"],diff:"expert"},
+{n:126,d:"Legal",title:"Hate Speech Jurisdiction Classifier",desc:"Classify online content by hate speech severity across 5 legal jurisdictions (EU DSA, Indian IT Act, US Section 230) using a multi-label multilingual model.",tags:["Multilingual","Multi-label","Content Mod"],diff:"hard"},
+{n:127,d:"Legal",title:"GDPR Compliance Checker for Websites",desc:"Automated tool that crawls a website, identifies personal data processing activities, compares against privacy policy claims, and flags GDPR violations.",tags:["Web Crawling","NLP","Privacy"],diff:"hard"},
+{n:128,d:"Legal",title:"Witness Deposition Inconsistency Detector",desc:"Compare multiple deposition transcripts from the same case to automatically flag temporal, factual, and semantic inconsistencies using a contradiction NLI model.",tags:["NLI","Contradiction","Legal"],diff:"hard"},
+{n:129,d:"Legal",title:"IP Infringement Detector for Product Images",desc:"Detect trade dress and IP infringement in product images by comparing new listings against a brand visual identity database using embedding similarity search.",tags:["CLIP","Similarity Search","IP"],diff:"hard"},
+
+// ─── SOCIAL GOOD (21) ────────────────────────────────────────────────────────
+{n:130,d:"Social",title:"Disaster Damage Assessor from SAR",desc:"Map building damage (intact/damaged/destroyed) after earthquakes using pre/post SAR imagery coherence loss + amplitude change, for UNOSAT-style rapid assessment.",tags:["SAR","Damage Assessment","Disaster"],diff:"expert"},
+{n:131,d:"Social",title:"Human Trafficking Network Detector",desc:"Detect trafficking advertisement clusters in online classifieds using NLP + phone number graph analysis, surfacing linked seller networks for law enforcement.",tags:["NLP","Graph Analysis","Anti-Trafficking"],diff:"expert"},
+{n:132,d:"Social",title:"Child Labour Detector in Supply Chains",desc:"Analyse satellite + street-level imagery of factories in risk regions to detect child labour indicators (small height ratios at workstations) as a supply chain audit tool.",tags:["Computer Vision","Supply Chain","Ethics"],diff:"expert"},
+{n:133,d:"Social",title:"Deepfake Video Detector for Disinformation",desc:"Detect face-swapped deepfake videos using frequency-domain artefact analysis + temporal inconsistency LSTM, evaluated on FaceForensics++ and DGM4 benchmarks.",tags:["Deepfake","Forensics","LSTM"],diff:"expert"},
+{n:134,d:"Social",title:"Refugee Camp Needs Estimator",desc:"Estimate shelter, water, and food needs in refugee camps from satellite imagery tent counting + population density estimation, integrating with UNHCR response planning.",tags:["Satellite","Object Counting","Humanitarian"],diff:"hard"},
+{n:135,d:"Social",title:"Domestic Violence Risk Predictor",desc:"Predict domestic violence risk escalation from case worker notes and structured data using NLP, with strict privacy controls and actionable safety plan recommendations.",tags:["NLP","Risk","Privacy"],diff:"expert"},
+{n:136,d:"Social",title:"Financial Inclusion Credit for Rural Women",desc:"Build a mobile-first micro-credit scoring system for rural women using voice-based credit assessments + social capital graphs, without traditional financial data.",tags:["Voice ML","Graph","Inclusion"],diff:"hard"},
+{n:137,d:"Social",title:"Suicide Risk Signal Detector in Telehealth",desc:"Passively detect suicide risk signals from therapy session transcripts using a fine-tuned mental health NLP model with strict data anonymisation pipeline.",tags:["Mental Health","NLP","Safety"],diff:"expert"},
+{n:138,d:"Social",title:"Accessible Navigation for Visually Impaired",desc:"Smartphone app that describes street-level obstacles, crossing signals, and shop names in real time using a vision-language model, with haptic distance feedback.",tags:["VLM","Accessibility","Real-time"],diff:"hard"},
+{n:139,d:"Social",title:"Sign Language to Text Translator (ISL)",desc:"Translate continuous Indian Sign Language sentence videos to text using a hand+body pose temporal transformer, trained on INCLUDE dataset.",tags:["Pose Transformer","ISL","INCLUDE"],diff:"hard"},
+{n:140,d:"Social",title:"Misinformation Health Claims Debunker",desc:"Real-time browser extension that detects health misinformation claims, retrieves WHO/PubMed evidence, and displays a concise fact-check inline on the page.",tags:["RAG","Fact-check","NLP"],diff:"hard"},
+{n:141,d:"Social",title:"Crowdsourced Potable Water Quality Monitor",desc:"Aggregate IoT water sensor readings from citizen-deployed sensors into a city-wide safe/unsafe potable water map with contamination source tracing.",tags:["IoT","Spatial ML","Public Health"],diff:"hard"},
+{n:142,d:"Social",title:"Anti-Poaching Acoustic Monitor",desc:"Deploy acoustic sensors in wildlife reserves, detect gunshot and vehicle sounds using edge ML on solar-powered Raspberry Pi nodes, alerting rangers within 30 seconds.",tags:["Edge ML","Acoustics","Wildlife"],diff:"hard"},
+{n:143,d:"Social",title:"Fake Job Scam Detector",desc:"Detect fraudulent job listings on platforms like Naukri/LinkedIn using a fine-tuned classifier on salary anomalies, vague requirements, and upfront-payment red flags.",tags:["NLP","Fraud","Classification"],diff:"hard"},
+{n:144,d:"Social",title:"Elder Loneliness Companion Chatbot",desc:"Emotionally intelligent conversational agent for elderly users that remembers past conversations via a memory graph, detects cognitive decline signals, and alerts carers.",tags:["LLM","Memory Graph","Elder Care"],diff:"hard"},
+{n:145,d:"Social",title:"Nutrition Estimator from Food Photo",desc:"Estimate macro and micro-nutrient content from a smartphone food photo using a food segmentation model + portion size estimator + USDA nutrition database.",tags:["Segmentation","Depth Estimation","Nutrition"],diff:"hard"},
+{n:146,d:"Social",title:"Menstrual Health Disorder Screener",desc:"Screen for PCOS and endometriosis using a multi-modal model (symptom NLP + menstrual cycle tracking data) with validated sensitivity against clinical diagnosis.",tags:["NLP","Time-series","Women's Health"],diff:"hard"},
+{n:147,d:"Social",title:"Electoral Deepfake Audio Detector",desc:"Detect synthetic voice impersonation of politicians in audio clips circulated during elections using speaker verification + deepfake artefact detection pipeline.",tags:["Speaker Verification","Deepfake","Elections"],diff:"expert"},
+{n:148,d:"Social",title:"Counterfeit Medicine Detector via Smartphone",desc:"Detect counterfeit drug packaging using a mobile CNN that analyses print quality, hologram features, and colour fidelity against authentic reference images.",tags:["Mobile CNN","Drug Safety","Forensics"],diff:"hard"},
+{n:149,d:"Social",title:"Gang Violence Hotspot Predictor",desc:"Predict gun violence hotspots 7 days ahead by fusing crime history, social media activity, economic stress indicators, and school holiday calendars with STGNN.",tags:["STGNN","Crime Prediction","Ethics"],diff:"expert"},
+{n:150,d:"Social",title:"Autonomous Braille Transcription System",desc:"Convert any printed document (book, form, notice) to Grade 2 Braille using OCR + a rule+ML Braille translation engine, then drive a refreshable Braille display.",tags:["OCR","Braille","Accessibility"],diff:"hard"},
+];
+
+const domains = ["All","Medical","Education","Agriculture","Smart City","Business","Cybersecurity","Environment","Legal","Social"];
+let activeDomain = "All";
+let searchQ = "";
+
+function render(){
+  const grid = document.getElementById("grid");
+  let shown = 0;
+  projects.forEach(p => {
+    const el = document.getElementById("c"+p.n);
+    const domainMatch = activeDomain === "All" || p.d === activeDomain;
+    const q = searchQ.toLowerCase();
+    const searchMatch = !q || p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || p.tags.some(t=>t.toLowerCase().includes(q)) || p.d.toLowerCase().includes(q);
+    if(domainMatch && searchMatch){ el.classList.remove("hidden"); shown++; }
+    else el.classList.add("hidden");
+  });
+  document.getElementById("shown").textContent = shown;
+}
+
+// Build filters
+const fb = document.getElementById("filters");
+domains.forEach(d=>{
+  const b = document.createElement("button");
+  b.className="df"+(d==="All"?" active":"");
+  b.setAttribute("data-d",d);
+  b.textContent = d==="All"?"All (150)":d;
+  b.onclick=()=>{
+    activeDomain=d;
+    document.querySelectorAll(".df").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    render();
+  };
+  fb.appendChild(b);
+});
+
+// Search
+document.getElementById("search").addEventListener("input",e=>{searchQ=e.target.value;render();});
+
+// Build cards
+const grid = document.getElementById("grid");
+projects.forEach(p=>{
+  const div = document.createElement("div");
+  div.className="card";
+  div.id="c"+p.n;
+  div.setAttribute("data-d",p.d);
+  div.innerHTML=`
+    <div class="card-num">#${String(p.n).padStart(3,"0")} · ${p.d.toUpperCase()}</div>
+    <div class="card-title">${p.title}</div>
+    <div class="card-desc">${p.desc}</div>
+    <div class="tech-tags">${p.tags.map(t=>`<span class="tech-tag">${t}</span>`).join("")}</div>
+    <div class="card-footer">
+      <span class="domain-badge" data-d="${p.d}">${p.d}</span>
+      <span class="diff-badge diff-${p.diff}">${p.diff}</span>
+    </div>
+  `;
+  grid.appendChild(div);
+});
+</script>
+</body>
+</html>
